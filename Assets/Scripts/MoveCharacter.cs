@@ -8,6 +8,7 @@ public class MoveCharacter : MonoBehaviour
     public Animator animator;
     public float interactionDistance = 2f;
     public string interactableTag = "Interactable";
+    public GameObject containerPanel;
 
     void Start()
     {
@@ -34,9 +35,19 @@ public class MoveCharacter : MonoBehaviour
                     if (distance <= interactionDistance)
                     {
                         animator.SetTrigger("open");
+                        ContainerUI containerUi = hit.collider.GetComponent<ContainerUI>();
+
+                        if (containerUi != null)
+                        {
+                            containerUi.OpenPanel();
+                        }
+
+
                         return;
                     }
                 }
+
+                containerPanel.SetActive(false);
 
                 MoveToPosition(hit.point);
             }
