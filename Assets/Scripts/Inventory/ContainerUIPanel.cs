@@ -3,8 +3,6 @@ using System.Diagnostics;
 
 public class ContainerPanelUI : BaseInventoryUI
 {
-    private bool initiated = false;
-
     public void ShowItems(Inventory inventory)
     {
         UpdateInventoryUI(inventory);
@@ -27,6 +25,4 @@ public class ContainerPanelUI : BaseInventoryUI
             }
         }
     }
-
-
 }

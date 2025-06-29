@@ -10,7 +10,6 @@ public class ContainerUI : Inventory
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
         panelScript = containerPanel.GetComponent<ContainerPanelUI>();
         containerPanel.SetActive(false);
     }

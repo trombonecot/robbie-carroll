@@ -30,7 +30,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (item != null)
         {
             image.sprite = item.icon;
-            text.text = item.name;
+            text.text = Translator.Instance.Translate("items." + item.name);
             image.color = Color.white;
         }
         else
