@@ -10,6 +10,9 @@ public class MoveCharacter : MonoBehaviour
     public string interactableTag = "Interactable";
     public GameObject containerPanel;
 
+    private Transform currentTarget;
+    private InventoryContainer currentInventory;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -19,47 +22,43 @@ public class MoveCharacter : MonoBehaviour
     void Update()
     {
         if (EventSystem.current.IsPointerOverGameObject())
-        {
             return;
-        }
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 if (hit.collider.CompareTag(interactableTag))
                 {
-                    float distance = Vector3.Distance(transform.position, hit.point);
-                    if (distance <= interactionDistance)
-                    {
-                        animator.SetTrigger("open");
-                        ContainerUI containerUi = hit.collider.GetComponent<ContainerUI>();
+                    currentTarget = hit.collider.transform;
+                    currentInventory = hit.collider.GetComponent<InventoryContainer>();
 
-                        if (containerUi != null)
-                        {
-                            containerUi.OpenPanel();
-                        }
-
-
-                        return;
-                    }
+                    MoveToPosition(currentTarget.position);
+                    return;
                 }
 
                 containerPanel.SetActive(false);
-
+                currentTarget = null;
+                currentInventory = null;
                 MoveToPosition(hit.point);
             }
         }
 
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        animator.SetBool("isWalking", !agent.pathPending && agent.remainingDistance > agent.stoppingDistance);
+
+        if (currentTarget != null && !agent.pathPending && agent.remainingDistance <= interactionDistance)
         {
-            animator.SetBool("isWalking", false);
-        }
-        else
-        {
-            animator.SetBool("isWalking", true);
+            animator.SetTrigger("open");
+
+            if (currentInventory != null)
+            {
+                currentInventory.OpenPanel();
+            }
+
+            currentTarget = null;
+            currentInventory = null;
         }
     }
 
@@ -68,7 +67,6 @@ public class MoveCharacter : MonoBehaviour
         if (agent != null)
         {
             agent.SetDestination(position);
-            animator.SetBool("isWalking", true);
         }
     }
 }

@@ -12,11 +12,12 @@ public class MouseHoverHighlightURP : MonoBehaviour
     {
         material = GetComponent<Renderer>().material;
 
-        if (!material.IsKeywordEnabled("_EMISSION"))
-        if (!material.IsKeywordEnabled("_EMISSION"))
-            material.EnableKeyword("_EMISSION");
+        material.EnableKeyword("_EMISSION");
 
         originalEmissionColor = material.GetColor("_EmissionColor");
+
+        material.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
+        DynamicGI.SetEmissive(GetComponent<Renderer>(), originalEmissionColor);
     }
 
     void Update()
@@ -39,11 +40,19 @@ public class MouseHoverHighlightURP : MonoBehaviour
         if (enable)
         {
             material.SetColor("_EmissionColor", highlightColor);
+            material.EnableKeyword("_EMISSION");
+
+            DynamicGI.SetEmissive(GetComponent<Renderer>(), highlightColor);
+
             isHighlighted = true;
         }
         else
         {
             material.SetColor("_EmissionColor", originalEmissionColor);
+            material.EnableKeyword("_EMISSION");
+
+            DynamicGI.SetEmissive(GetComponent<Renderer>(), originalEmissionColor);
+
             isHighlighted = false;
         }
     }
