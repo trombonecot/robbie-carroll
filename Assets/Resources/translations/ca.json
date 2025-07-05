@@ -2,5 +2,20 @@
   "items": {
     "phone": "Telèfon",
     "pistol": "Pistola"
+  },
+  "scene1": {
+    "elements": {
+      "painting": "Perquè vaig penjar aquest quadre tan horrórós?",
+      "door": {
+        "close": "No puc marxar ara.",
+        "open": "A veure com està el món avui"
+      },
+      "boxes": "Quin merder... ja seria hora d'acabarme d'instal·lar.",
+      "drawer": "Què dec haver deixat aquí?",
+      "book":  "Recordo escriure alguna cosa en algun pàgina."
+    },
+    "monologue": {
+      "start": "Porto masses dies tancat a casa. Des de que van decretar el toc de queda. On he deixat el mòvil?"
+    }
   }
 }
